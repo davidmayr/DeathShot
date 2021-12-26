@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "deathshot",
+  "version": "${version}",
+  "name": "DeathShot",
+  "description": "",
+  "authors": [
+    "MenschenToaster"
+  ],
+  "contact": {
+    "website": "https://github.com/MenschenToaster"
+  },
+  "license": "MIT",
+  "icon": "assets/DeathShot/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "at.toastiii.deathshot.client.DeathShotClient"
+    ]
+  },
+  "mixins": [
+    "deathshot.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "minecraft": "1.18.1"
+  }
+}
