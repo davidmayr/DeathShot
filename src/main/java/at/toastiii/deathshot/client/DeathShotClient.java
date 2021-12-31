@@ -5,12 +5,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
-import net.minecraft.client.util.ScreenshotRecorder;
-import net.minecraft.network.MessageType;
+import net.minecraft.client.util.ScreenshotUtils;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
@@ -32,13 +30,13 @@ public class DeathShotClient implements ClientModInitializer {
     }
 
     public static void saveScreenShot() {
-        NativeImage nativeImage = ScreenshotRecorder.takeScreenshot(MinecraftClient.getInstance().getFramebuffer());
+        NativeImage nativeImage = ScreenshotUtils.takeScreenshot(0, 0, MinecraftClient.getInstance().getFramebuffer());
         File file = new File(MinecraftClient.getInstance().runDirectory, "death-shots");
         file.mkdir();
         File file2 = getScreenshotFilename(file);
         Util.getIoWorkerExecutor().execute(() -> {
             try {
-                nativeImage.writeTo(file2);
+                nativeImage.writeFile(file2);
                 MutableText text = new LiteralText(file2.getName()).formatted(Formatting.UNDERLINE).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath())));
                 MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("Took death-shot: ").append(text));
 
