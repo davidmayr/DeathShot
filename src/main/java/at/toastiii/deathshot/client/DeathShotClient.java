@@ -6,11 +6,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotRecorder;
-import net.minecraft.network.MessageType;
 import net.minecraft.text.ClickEvent;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
@@ -39,13 +37,13 @@ public class DeathShotClient implements ClientModInitializer {
         Util.getIoWorkerExecutor().execute(() -> {
             try {
                 nativeImage.writeTo(file2);
-                MutableText text = new LiteralText(file2.getName()).formatted(Formatting.UNDERLINE).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath())));
-                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("Took death-shot: ").append(text));
+                MutableText text = Text.literal(file2.getName()).formatted(Formatting.UNDERLINE).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath())));
+                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.literal("Took death-shot: ").append(text));
 
             }
             catch (Exception text) {
                 LogManager.getLogger().warn("Couldn't save death-screenshot", (Throwable)text);
-                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("Couldn't save death-screenshot..."));
+                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.literal("Couldn't save death-screenshot..."));
             }
             finally {
                 nativeImage.close();
